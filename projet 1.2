@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>KAYTAX Bounce</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      overflow: hidden;
+      background: black;
+      font-family: Arial, sans-serif;
+    }
+
+    #text {
+      position: absolute;
+      font-size: 48px;
+      font-weight: bold;
+      color: white;
+      user-select: none;
+      white-space: nowrap;
+    }
+  </style>
+</head>
+<body>
+
+<div id="text">KAYTAX</div>
+
+<script>
+  const text = document.getElementById("text");
+
+  let x = 100;
+  let y = 100;
+  let speedX = 3;
+  let speedY = 3;
+
+  let paused = false;
+
+  function randomColor() {
+    return `hsl(${Math.random() * 360}, 100%, 50%)`;
+  }
+
+  function centerText(newText) {
+    paused = true;
+    text.textContent = newText;
+
+    const rect = text.getBoundingClientRect();
+    x = (window.innerWidth - rect.width) / 2;
+    y = (window.innerHeight - rect.height) / 2;
+
+    text.style.left = x + "px";
+    text.style.top = y + "px";
+
+    setTimeout(() => {
+      text.textContent = "KAYTAX";
+      speedX = (Math.random() > 0.5 ? 1 : -1) * 3;
+      speedY = (Math.random() > 0.5 ? 1 : -1) * 3;
+      paused = false;
+    }, 3000);
+  }
+
+  function animate() {
+    if (!paused) {
+      x += speedX;
+      y += speedY;
+
+      const rect = text.getBoundingClientRect();
+
+      let hitX = false;
+      let hitY = false;
+
+      if (x <= 0 || x + rect.width >= window.innerWidth) {
+        speedX *= -1;
+        hitX = true;
+      }
+
+      if (y <= 0 || y + rect.height >= window.innerHeight) {
+        speedY *= -1;
+        hitY = true;
+      }
+
+      // Changement de couleur à chaque rebond
+      if (hitX || hitY) {
+        text.style.color = randomColor();
+      }
+
+      // Collision avec un coin (X et Y en même temps)
+      if (hitX && hitY) {
+        centerText("tie un tigre le boss");
+      }
+
+      text.style.left = x + "px";
+      text.style.top = y + "px";
+    }
+
+    requestAnimationFrame(animate);
+  }
+
+  animate();
+</script>
+
+</body>
+</html>
