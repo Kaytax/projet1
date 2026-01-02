@@ -1,0 +1,120 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+<meta charset="UTF-8">
+<title>MIAOU ROSE LICORNE</title>
+
+<link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
+
+<style>
+    body {
+        margin: 0;
+        height: 100vh;
+        overflow: hidden;
+        font-family: 'Comic Neue', cursive;
+
+        /* FOND 100% ROSE */
+        background-color: #ff69b4;
+    }
+
+    /* LICORNES EN FOND */
+    .unicorn-bg {
+        position: fixed;
+        inset: 0;
+        font-size: 4rem;
+        opacity: 0.25;
+        pointer-events: none;
+        display: grid;
+        grid-template-columns: repeat(auto-fill, 80px);
+        grid-auto-rows: 80px;
+    }
+
+    .unicorn-bg span {
+        display: flex;
+        align-items: center;
+        justify-content: center;
+        filter: hue-rotate(290deg);
+    }
+
+    /* CHATS */
+    .cat {
+        position: absolute;
+        font-size: 3rem;
+        animation: pop 2.5s ease-out forwards;
+        pointer-events: none;
+    }
+
+    /* TEXTE MIAOU */
+    .miaou {
+        display: block;
+        font-size: 2.2rem;
+        color: #ff1493;
+        text-shadow:
+            0 0 5px #ff69b4,
+            0 0 10px #ff1493,
+            0 0 20px #c71585;
+        animation: shake 0.25s infinite alternate;
+    }
+
+    @keyframes pop {
+        0% {
+            transform: scale(0) translateY(0);
+            opacity: 1;
+        }
+        100% {
+            transform: scale(1.4) translateY(-120px);
+            opacity: 0;
+        }
+    }
+
+    @keyframes shake {
+        from { transform: rotate(-6deg); }
+        to { transform: rotate(6deg); }
+    }
+</style>
+</head>
+
+<body>
+
+<!-- FOND LICORNES -->
+<div class="unicorn-bg" id="unicornBg"></div>
+
+<script>
+    const unicornBg = document.getElementById("unicornBg");
+    const catEmojis = ["🐱", "😺", "😸", "🐈"];
+
+    // Remplir l'écran de licornes
+    for (let i = 0; i < 220; i++) {
+        const u = document.createElement("span");
+        u.textContent = "🦄";
+        unicornBg.appendChild(u);
+    }
+
+    // Créer un chat + MIAOU
+    function spawnCat(x, y) {
+        const cat = document.createElement("div");
+        cat.className = "cat";
+        cat.style.left = x + "px";
+        cat.style.top = y + "px";
+        cat.innerHTML = `
+            ${catEmojis[Math.floor(Math.random() * catEmojis.length)]}
+            <span class="miaou">MIAOU</span>
+        `;
+        document.body.appendChild(cat);
+
+        setTimeout(() => cat.remove(), 2500);
+    }
+
+    // CLIC = CHATS
+    document.addEventListener("click", (e) => {
+        for (let i = 0; i < 6; i++) {
+            spawnCat(
+                e.clientX + Math.random() * 60 - 30,
+                e.clientY + Math.random() * 60 - 30
+            );
+        }
+    });
+</script>
+
+</body>
+</html>
