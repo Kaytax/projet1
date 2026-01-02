@@ -2,49 +2,66 @@
 <html lang="fr">
 <head>
 <meta charset="UTF-8">
-<title>MIAOU ROSE LICORNE</title>
+<title>Père Noël Infini 🎅🛷🦌</title>
 
 <link href="https://fonts.googleapis.com/css2?family=Comic+Neue:wght@700&display=swap" rel="stylesheet">
 
 <style>
     body {
         margin: 0;
+        padding: 0;
         height: 100vh;
         overflow: hidden;
-        font-family: 'Comic Neue', cursive;
-
-        /* FOND 100% ROSE */
         background-color: #ff69b4;
+        font-family: 'Comic Neue', cursive;
     }
 
-    /* LICORNES EN FOND */
+    /* 🌈 Fond de licornes */
     .unicorn-bg {
         position: fixed;
         inset: 0;
-        font-size: 4rem;
-        opacity: 0.25;
-        pointer-events: none;
         display: grid;
         grid-template-columns: repeat(auto-fill, 80px);
         grid-auto-rows: 80px;
+        pointer-events: none;
     }
-
     .unicorn-bg span {
         display: flex;
         align-items: center;
         justify-content: center;
-        filter: hue-rotate(290deg);
+        animation: rotateBg 8s linear infinite;
+        font-size: 2.8rem;
+        opacity: 0.35;
+    }
+    @keyframes rotateBg {
+        0% { transform: rotate(0deg); }
+        100% { transform: rotate(360deg); }
     }
 
-    /* CHATS */
+    /* 🍭 Sucres d’orge flottants */
+    .candy {
+        position: absolute;
+        width: 60px;
+        animation: floatCandy 5s ease-in-out infinite, slideRight 12s linear infinite;
+        pointer-events: none;
+    }
+    @keyframes floatCandy {
+        0% { transform: translateY(0) rotate(0deg); }
+        50% { transform: translateY(-20px) rotate(180deg); }
+        100% { transform: translateY(0) rotate(360deg); }
+    }
+    @keyframes slideRight {
+        0% { left: -80px; }
+        100% { left: calc(100% + 80px); }
+    }
+
+    /* 🐱 Chats MIAOU au clic */
     .cat {
         position: absolute;
         font-size: 3rem;
         animation: pop 2.5s ease-out forwards;
         pointer-events: none;
     }
-
-    /* TEXTE MIAOU */
     .miaou {
         display: block;
         font-size: 2.2rem;
@@ -55,42 +72,71 @@
             0 0 20px #c71585;
         animation: shake 0.25s infinite alternate;
     }
-
     @keyframes pop {
-        0% {
-            transform: scale(0) translateY(0);
-            opacity: 1;
-        }
-        100% {
-            transform: scale(1.4) translateY(-120px);
-            opacity: 0;
-        }
+        0% { transform: scale(0) translateY(0); opacity: 1; }
+        100% { transform: scale(1.4) translateY(-120px); opacity: 0; }
     }
-
     @keyframes shake {
         from { transform: rotate(-6deg); }
         to { transform: rotate(6deg); }
+    }
+
+    /* 🎅 Père Noël + renne 🦌 + traîneau 🛷 */
+    .santa-group {
+        position: absolute;
+        font-size: 4rem;
+        top: 40%;
+        left: -300px;
+        white-space: nowrap;
+        text-align: center;
+    }
+    .santa-text {
+        position: absolute;
+        font-size: 2.2rem;
+        color: #fff;
+        text-shadow: 0px 0px 8px #000;
+        left: 50%;
+        top: 25%;
+        transform: translateX(-50%);
+        opacity: 0;
+        transition: opacity 0.4s ease;
     }
 </style>
 </head>
 
 <body>
 
-<!-- FOND LICORNES -->
 <div class="unicorn-bg" id="unicornBg"></div>
 
-<script>
-    const unicornBg = document.getElementById("unicornBg");
-    const catEmojis = ["🐱", "😺", "😸", "🐈"];
+<div class="santa-group" id="santaGroup">
+    🎅<br>🦌🛷
+</div>
 
-    // Remplir l'écran de licornes
-    for (let i = 0; i < 220; i++) {
-        const u = document.createElement("span");
-        u.textContent = "🦄";
-        unicornBg.appendChild(u);
+<div class="santa-text" id="santaText">Oh Oh Oh je suis le Père Noël 🎅</div>
+
+<script>
+    // 🌈 Fond de licornes
+    const unicornBg = document.getElementById("unicornBg");
+    for (let i = 0; i < 200; i++) {
+        const span = document.createElement("span");
+        span.textContent = "🦄";
+        unicornBg.appendChild(span);
     }
 
-    // Créer un chat + MIAOU
+    // 🍬 Sucres d’orge
+    function createCandy() {
+        const candy = document.createElement("div");
+        candy.className = "candy";
+        candy.textContent = "🍭";
+        candy.style.top = Math.random() * window.innerHeight + "px";
+        document.body.appendChild(candy);
+        setTimeout(() => candy.remove(), 12000);
+    }
+    for (let i = 0; i < 8; i++) setTimeout(createCandy, i * 900);
+    setInterval(createCandy, 2200);
+
+    // 🐱 Chats MIAOU
+    const catEmojis = ["🐱", "😺", "😸", "🐈"];
     function spawnCat(x, y) {
         const cat = document.createElement("div");
         cat.className = "cat";
@@ -101,19 +147,56 @@
             <span class="miaou">MIAOU</span>
         `;
         document.body.appendChild(cat);
-
         setTimeout(() => cat.remove(), 2500);
     }
-
-    // CLIC = CHATS
-    document.addEventListener("click", (e) => {
+    document.addEventListener("click", e => {
         for (let i = 0; i < 6; i++) {
             spawnCat(
-                e.clientX + Math.random() * 60 - 30,
-                e.clientY + Math.random() * 60 - 30
+                e.clientX + Math.random()*80 - 40,
+                e.clientY + Math.random()*80 - 40
             );
         }
     });
+
+    const santaGroup = document.getElementById("santaGroup");
+    const santaText = document.getElementById("santaText");
+
+    function loopSanta() {
+        // début hors écran
+        santaGroup.style.transition = "none";
+        santaGroup.style.left = "-300px";
+        santaText.style.opacity = "0";
+
+        // force reflow pour reset transition
+        santaGroup.getBoundingClientRect();
+
+        // aller au centre
+        santaGroup.style.transition = "left 3s linear";
+        santaGroup.style.left = "45%";
+
+        // après avoir atteint le milieu
+        setTimeout(() => {
+            santaText.style.opacity = "1"; // texte apparaît
+
+            // après 2s au centre
+            setTimeout(() => {
+                santaText.style.opacity = "0"; // texte disparaît
+
+                // aller au‑delà du bord droit
+                santaGroup.style.transition = "left 2s linear";
+                santaGroup.style.left = "110%";
+
+                // après qu’il a dépassé
+                setTimeout(() => {
+                    loopSanta(); // recommence
+                }, 2000);
+            }, 2000);
+        }, 3000); // 3s pour arriver au centre
+    }
+
+    // attend 3s au début puis lance la boucle infinie
+    setTimeout(loopSanta, 3000);
+
 </script>
 
 </body>
