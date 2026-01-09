@@ -1,0 +1,149 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <title>Fond multicolore</title>
+  <style>
+    html, body {
+      margin: 0;
+      padding: 0;
+      width: 100%;
+      height: 100%;
+      font-family: Arial, Helvetica, sans-serif;
+    }
+
+    body {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      background: linear-gradient(
+        270deg,
+        #ff0080,
+        #ff8c00,
+        #40e0d0,
+        #8a2be2,
+        #00ff7f
+      );
+      background-size: 1000% 1000%;
+      animation: rainbow 8s ease infinite;
+    }
+
+    @keyframes rainbow {
+      0% { background-position: 0% 50%; }
+      50% { background-position: 100% 50%; }
+      100% { background-position: 0% 50%; }
+    }
+
+    .container {
+      text-align: center;
+      color: white;
+      padding: 30px;
+      border-radius: 20px;
+      backdrop-filter: blur(6px);
+      background: rgba(0, 0, 0, 0.35);
+      box-shadow: 0 0 30px rgba(0,0,0,0.4);
+      max-width: 90%;
+    }
+
+    .texte {
+      font-size: 2rem;
+      font-weight: bold;
+      margin-bottom: 30px;
+      animation: pulse 1.5s infinite alternate;
+    }
+
+    @keyframes pulse {
+      from { transform: scale(1); }
+      to { transform: scale(1.05); }
+    }
+
+    .boutons {
+      display: flex;
+      flex-direction: column;
+      gap: 15px;
+    }
+
+    button {
+      font-size: 1.1rem;
+      padding: 14px 20px;
+      border: none;
+      border-radius: 12px;
+      cursor: pointer;
+      transition: transform 0.2s, opacity 0.2s;
+    }
+
+    button:hover {
+      transform: scale(1.05);
+      opacity: 0.9;
+    }
+
+    .oui {
+      background: #2ecc71; /* vert */
+      color: white;
+    }
+
+    .non {
+      background: #e74c3c; /* rouge */
+      color: white;
+    }
+
+    .retour {
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: black;
+      color: white;
+      padding: 10px 16px;
+      border-radius: 10px;
+      display: none;
+    }
+  </style>
+</head>
+<body>
+
+  <div class="container" id="contenu">
+    <div class="texte">
+      je suis gay viens coucher avec moi 😈😈😈🫦🫦🫦💋💋💋🫣🫣🫣
+    </div>
+
+    <div class="boutons">
+      <button class="oui" onclick="choixOui()">oui avec plaisir mon petit coquin</button>
+      <button class="non" onclick="choixNon()">non</button>
+    </div>
+  </div>
+
+  <button class="retour" id="retour" onclick="retour()">retour</button>
+
+  <script>
+    const contenu = document.getElementById("contenu");
+    const boutonRetour = document.getElementById("retour");
+    let ancienContenu = contenu.innerHTML;
+
+    function choixOui() {
+      ancienContenu = contenu.innerHTML;
+      contenu.innerHTML = `
+        <div class="texte">
+          oh oui bebe j’aime ca
+        </div>
+      `;
+      boutonRetour.style.display = "block";
+    }
+
+    function choixNon() {
+      ancienContenu = contenu.innerHTML;
+      contenu.innerHTML = `
+        <div class="texte">
+          je sais que tu assume pas accepte et viens dans mon lit
+        </div>
+      `;
+      boutonRetour.style.display = "block";
+    }
+
+    function retour() {
+      contenu.innerHTML = ancienContenu;
+      boutonRetour.style.display = "none";
+    }
+  </script>
+
+</body>
+</html>
